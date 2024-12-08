@@ -12,7 +12,7 @@ app.get("/", (req: Request, res: Response) => {
   res.json({
     status: true,
     message: "THE BOOK SHOP SERVER IS RUNNING⚡",
-    serverName: "Book Shop B4A2V1",
+    serverName: "Book Shop B4A2V1⚡",
   });
 });
 
