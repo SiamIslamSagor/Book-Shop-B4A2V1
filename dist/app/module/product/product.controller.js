@@ -29,6 +29,24 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_service_1.ProductServices.getAllProductsFromDB();
+        res.status(201).json({
+            message: "Book retrieved successfully",
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong!",
+            success: false,
+            error,
+        });
+    }
+});
 exports.ProductControllers = {
     createProduct,
+    getAllProducts,
 };

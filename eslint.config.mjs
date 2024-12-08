@@ -10,7 +10,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["node_modules", "dist"],
+    ignores: ["dist", "node_modules"],
     rules: {
       "no-unused-vars": "error",
       "no-unused-expressions": "error",

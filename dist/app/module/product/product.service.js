@@ -15,6 +15,12 @@ const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, f
     const result = yield product_model_1.Product.create(productData);
     return result;
 });
+const getAllProductsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    // TODO: have to implement status delete functionality
+    const result = yield product_model_1.Product.find();
+    return result;
+});
 exports.ProductServices = {
     createProductIntoDB,
+    getAllProductsFromDB,
 };
