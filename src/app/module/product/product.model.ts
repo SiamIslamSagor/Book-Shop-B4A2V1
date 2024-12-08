@@ -59,14 +59,27 @@ const productSchema = new Schema<TProduct>(
   },
 );
 
-productSchema.pre("find", function (next) {
-  this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+/* ------------- MIDDLEWARE / HOOK ------------ */
+
+productSchema.pre("aggregate", function (next) {
+  // stage-1: add a stage to skep unwanted docs
+  this.pipeline().unshift({
+    $match: {
+      isDeleted: { $ne: true },
+      quantity: { $gte: 1 },
+      inStock: { $ne: false },
+    },
+  });
 
   next();
 });
 
 productSchema.pre("findOne", function (next) {
-  this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+  this.find({
+    isDeleted: { $ne: true },
+    quantity: { $gte: 1 },
+    inStock: { $ne: false },
+  });
 
   next();
 });

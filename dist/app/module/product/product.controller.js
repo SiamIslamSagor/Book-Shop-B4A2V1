@@ -31,7 +31,8 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_service_1.ProductServices.getAllProductsFromDB();
+        const { searchTerm } = req.query;
+        const result = yield product_service_1.ProductServices.getAllProductsFromDB(searchTerm);
         res.status(200).json({
             message: "Books retrieved successfully",
             status: true,

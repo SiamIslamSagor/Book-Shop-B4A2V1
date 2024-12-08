@@ -15,10 +15,19 @@ const createProductIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
     const result = yield product_model_1.Product.create(payload);
     return result;
 });
-const getAllProductsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    // TODO: have to implement status delete functionality
-    // TODO: have to implement search functionality
-    const result = yield product_model_1.Product.find();
+const getAllProductsFromDB = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.Product.aggregate([
+        // stage-2: match the searchTerm to title, author and category
+        {
+            $match: {
+                $or: [
+                    { title: { $regex: searchTerm, $options: "i" } },
+                    { author: { $regex: searchTerm, $options: "i" } },
+                    { category: { $regex: searchTerm, $options: "i" } },
+                ],
+            },
+        },
+    ]);
     return result;
 });
 const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
