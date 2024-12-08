@@ -83,9 +83,28 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductServices.deleteProductFromDB(productId);
+        res.status(200).json({
+            message: "Book deleted successfully",
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong!",
+            success: false,
+            error,
+        });
+    }
+});
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
     getSingleProduct,
     updateProduct,
+    deleteProduct,
 };

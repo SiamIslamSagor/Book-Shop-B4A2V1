@@ -48,8 +48,20 @@ const productSchema = new mongoose_1.Schema({
         type: Boolean,
         required: [true, "In stock status is required"],
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
     strict: true,
+});
+productSchema.pre("find", function (next) {
+    this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+    next();
+});
+productSchema.pre("findOne", function (next) {
+    this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+    next();
 });
 exports.Product = (0, mongoose_1.model)("Product", productSchema);

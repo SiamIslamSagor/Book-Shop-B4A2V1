@@ -48,11 +48,27 @@ const productSchema = new Schema<TProduct>(
       type: Boolean,
       required: [true, "In stock status is required"],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
     strict: true,
   },
 );
+
+productSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+
+  next();
+});
+
+productSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true }, quantity: { $gte: 1 } });
+
+  next();
+});
 
 export const Product = model<TProduct>("Product", productSchema);
