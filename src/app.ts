@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("hello world");
+  res.send("THE BOOK SHOP SERVER IS RUNNING⚡");
 });
 
 export default app;
