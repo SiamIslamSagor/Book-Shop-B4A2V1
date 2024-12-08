@@ -50,5 +50,6 @@ const productSchema = new mongoose_1.Schema({
     },
 }, {
     timestamps: true,
+    strict: true,
 });
 exports.Product = (0, mongoose_1.model)("Product", productSchema);

@@ -51,6 +51,7 @@ const productSchema = new Schema<TProduct>(
   },
   {
     timestamps: true,
+    strict: true,
   },
 );
 

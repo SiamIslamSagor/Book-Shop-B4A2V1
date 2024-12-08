@@ -11,16 +11,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductServices = void 0;
 const product_model_1 = require("./product.model");
-const createProductIntoDB = (productData) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield product_model_1.Product.create(productData);
+const createProductIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.Product.create(payload);
     return result;
 });
 const getAllProductsFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
     // TODO: have to implement status delete functionality
+    // TODO: have to implement search functionality
     const result = yield product_model_1.Product.find();
+    return result;
+});
+const getSingleProductFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const product = yield product_model_1.Product.findById(id);
+    return product;
+});
+const updateProductFromDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield product_model_1.Product.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true,
+    });
     return result;
 });
 exports.ProductServices = {
     createProductIntoDB,
     getAllProductsFromDB,
+    getSingleProductFromDB,
+    updateProductFromDB,
 };

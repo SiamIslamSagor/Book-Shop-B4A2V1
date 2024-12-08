@@ -32,8 +32,45 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_service_1.ProductServices.getAllProductsFromDB();
-        res.status(201).json({
+        res.status(200).json({
+            message: "Books retrieved successfully",
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong!",
+            success: false,
+            error,
+        });
+    }
+});
+const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield product_service_1.ProductServices.getSingleProductFromDB(productId);
+        res.status(200).json({
             message: "Book retrieved successfully",
+            status: true,
+            data: result,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Something went wrong!",
+            success: false,
+            error,
+        });
+    }
+});
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const updatedDoc = req.body;
+        const result = yield product_service_1.ProductServices.updateProductFromDB(productId, updatedDoc);
+        res.status(200).json({
+            message: "Book updated successfully",
             status: true,
             data: result,
         });
@@ -49,4 +86,6 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
+    getSingleProduct,
+    updateProduct,
 };
