@@ -1,5 +1,6 @@
-import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import express, { Application, Request, Response } from "express";
+import { OrderRoutes } from "./app/module/order/order.route";
 import { ProductRoutes } from "./app/module/product/product.route";
 
 const app: Application = express();
@@ -10,6 +11,7 @@ app.use(cors());
 
 /* ------------ APPLICATION ROUTES ------------ */
 app.use("/api/products", ProductRoutes);
+app.use("/api/orders", OrderRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   // res.send("THE BOOK SHOP SERVER IS RUNNING⚡");
