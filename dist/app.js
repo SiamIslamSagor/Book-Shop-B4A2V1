@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     // res.send("THE BOOK SHOP SERVER IS RUNNING⚡");
     res.json({
         status: true,
-        message: "this is test",
+        message: "THE BOOK SHOP SERVER IS RUNNING⚡abc!",
         serverName: "Book Shop B4A2V1⚡",
     });
 });
