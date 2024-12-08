@@ -15,3 +15,8 @@ async function main() {
 }
 
 main();
+
+process.on("SIGINT", () => {
+  console.log("Closing server...⚡");
+  process.exit(0);
+});
