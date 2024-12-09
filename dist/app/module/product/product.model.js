@@ -51,6 +51,7 @@ const productSchema = new mongoose_1.Schema({
     isDeleted: {
         type: Boolean,
         default: false,
+        select: false,
     },
 }, {
     timestamps: true,
@@ -62,8 +63,6 @@ productSchema.pre("aggregate", function (next) {
     this.pipeline().unshift({
         $match: {
             isDeleted: { $ne: true },
-            quantity: { $gte: 1 },
-            inStock: { $ne: false },
         },
     });
     next();
@@ -71,8 +70,6 @@ productSchema.pre("aggregate", function (next) {
 productSchema.pre("findOne", function (next) {
     this.find({
         isDeleted: { $ne: true },
-        quantity: { $gte: 1 },
-        inStock: { $ne: false },
     });
     next();
 });

@@ -7,12 +7,6 @@ const order_controller_1 = require("./order.controller");
 const router = (0, express_1.Router)();
 // to create a product
 router.post("/", order_controller_1.OrderControllers.createOrder);
-// to get a single product
-// router.get("/:productId", ProductControllers.getSingleProduct);
-// to get all products
-// router.get("/", ProductControllers.getAllProducts);
-// to update a product
-// router.put("/:productId", ProductControllers.updateProduct);
-// to delete a product
-// router.delete("/:productId", ProductControllers.deleteProduct);
+// to get total revenue
+router.get("/revenue", order_controller_1.OrderControllers.getRevenue);
 exports.OrderRoutes = router;

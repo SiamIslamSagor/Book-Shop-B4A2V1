@@ -1,5 +1,7 @@
 import { model, Schema } from "mongoose";
 import { TOrder } from "./order.interface";
+import { Product } from "../product/product.model";
+import { AppError } from "../../utils/app-error";
 
 const orderSchema = new Schema<TOrder>(
   {
@@ -34,5 +36,44 @@ const orderSchema = new Schema<TOrder>(
     strict: true,
   },
 );
+
+orderSchema.pre("save", async function (next) {
+  const productId = this.product;
+  const orderQuantity = this.quantity;
+
+  const product = await Product.findById(productId);
+
+  // if requested product is not found
+  if (!product) {
+    return next(new AppError("Product not found.", 404));
+  }
+
+  // max quantity request
+  if (product.quantity < orderQuantity) {
+    return next(
+      new AppError(
+        `Insufficient stock. Available: ${product.quantity}, Requested: ${orderQuantity}.`,
+        400,
+      ),
+    );
+  }
+
+  // update quantity and inStock
+
+  const updatedProduct = await Product.findOneAndUpdate(
+    productId,
+    {
+      $inc: { quantity: -orderQuantity },
+      inStock: product.quantity - orderQuantity > 0,
+    },
+    { new: true },
+  );
+
+  if (!updatedProduct) {
+    return next(new AppError("Failed to update product inventory.", 500));
+  }
+
+  next();
+});
 
 export const Order = model<TOrder>("Order", orderSchema);

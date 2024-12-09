@@ -15,6 +15,23 @@ const createOrderIntoDB = (payload) => __awaiter(void 0, void 0, void 0, functio
     const result = yield order_model_1.Order.create(payload);
     return result;
 });
+const getRevenueFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield order_model_1.Order.aggregate([
+        // stage-1: group them all and retrieve totalRevenue
+        {
+            $group: {
+                _id: null,
+                totalRevenue: {
+                    $sum: "$totalPrice",
+                },
+            },
+        },
+        // stage-2: skep _id and just send totalRevenue
+        { $project: { _id: 0 } },
+    ]);
+    return result;
+});
 exports.OrderServices = {
     createOrderIntoDB,
+    getRevenueFromDB,
 };

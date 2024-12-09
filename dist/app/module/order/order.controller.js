@@ -17,18 +17,37 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const result = yield order_service_1.OrderServices.createOrderIntoDB(orderData);
         res.status(201).json({
             message: "Order created successfully",
-            success: true,
+            status: true,
+            data: result,
+        });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }
+    catch (error) {
+        res.status(error.statusCode || 500).json({
+            message: "Something went wrong!!",
+            status: false,
+            error,
+        });
+    }
+});
+const getRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield order_service_1.OrderServices.getRevenueFromDB();
+        res.status(200).json({
+            message: "Revenue calculated successfully",
+            status: true,
             data: result,
         });
     }
     catch (error) {
         res.status(500).json({
-            message: "Validation failed",
-            success: false,
+            message: "Something went wrong",
+            status: false,
             error,
         });
     }
 });
 exports.OrderControllers = {
     createOrder,
+    getRevenue,
 };
