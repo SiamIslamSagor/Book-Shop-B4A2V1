@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 import { TOrder } from "./order.interface";
 import { Product } from "../product/product.model";
-import { AppError } from "../../utils/app-error";
+import { AppError } from "../../utils/utility";
 
 const orderSchema = new Schema<TOrder>(
   {

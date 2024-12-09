@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const mongoose_1 = require("mongoose");
 const product_model_1 = require("../product/product.model");
-const app_error_1 = require("../../utils/app-error");
+const utility_1 = require("../../utils/utility");
 const orderSchema = new mongoose_1.Schema({
     email: {
         type: String,
@@ -50,11 +50,11 @@ orderSchema.pre("save", function (next) {
         const product = yield product_model_1.Product.findById(productId);
         // if requested product is not found
         if (!product) {
-            return next(new app_error_1.AppError("Product not found.", 404));
+            return next(new utility_1.AppError("Product not found.", 404));
         }
         // max quantity request
         if (product.quantity < orderQuantity) {
-            return next(new app_error_1.AppError(`Insufficient stock. Available: ${product.quantity}, Requested: ${orderQuantity}.`, 400));
+            return next(new utility_1.AppError(`Insufficient stock. Available: ${product.quantity}, Requested: ${orderQuantity}.`, 400));
         }
         // update quantity and inStock
         const updatedProduct = yield product_model_1.Product.findOneAndUpdate(productId, {
@@ -62,7 +62,7 @@ orderSchema.pre("save", function (next) {
             inStock: product.quantity - orderQuantity > 0,
         }, { new: true });
         if (!updatedProduct) {
-            return next(new app_error_1.AppError("Failed to update product inventory.", 500));
+            return next(new utility_1.AppError("Failed to update product inventory.", 500));
         }
         next();
     });
